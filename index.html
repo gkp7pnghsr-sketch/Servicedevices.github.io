@@ -2,7 +2,7 @@
 <html lang="ru" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>ServiceDevices Store — 3D Models App Store</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -12,7 +12,6 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Имитация нативного мобильного скролла и UI Apple */
         body {
             background-color: #000000;
             color: #ffffff;
@@ -22,49 +21,38 @@
         }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .ios-blur { background: rgba(28, 28, 30, 0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .ios-blur { background: rgba(28, 28, 30, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
         .ios-card { background: #1c1c1e; border: 1px solid rgba(255, 255, 255, 0.08); }
+        .ios-input { background: #2c2c2e; border: 1px solid rgba(255, 255, 255, 0.08); color: white; }
+        .ios-input:focus { border-color: #0a84ff; outline: none; }
         .ios-btn { background: #2c2c2e; color: #0a84ff; transition: all 0.2s ease; }
         .ios-btn:active { opacity: 0.6; transform: scale(0.96); }
         .ios-btn-primary { background: #0a84ff; color: #ffffff; }
+        .ios-btn-primary:active { opacity: 0.8; transform: scale(0.98); }
     </style>
 </head>
 <body class="flex justify-center items-center min-h-screen bg-neutral-900 p-0 sm:p-4">
 
-    <!-- Корпус Мобильного Телефона (Мобильный контейнер) -->
-    <div class="w-full max-w-[430px] h-[100vh] sm:h-[880px] bg-black sm:rounded-[50px] shadow-2xl overflow-hidden flex flex-col relative border-0 sm:border-[8px] border-neutral-800">
+    <!-- Корпус Мобильного Телефона -->
+    <div class="w-full max-w-[430px] h-[100vh] sm:h-[880px] bg-black sm:rounded-[40px] shadow-2xl overflow-hidden flex flex-col relative border-0 sm:border-[8px] border-neutral-800">
 
-        <!-- Dynamic Island / Status Bar -->
-        <div class="w-full pt-3 pb-2 px-7 flex justify-between items-center text-xs text-white z-50 bg-black/80 backdrop-blur-md">
-            <span class="font-semibold text-sm">9:41</span>
-            <div class="w-24 h-5 bg-black rounded-full border border-neutral-800 flex items-center justify-end px-2 gap-1">
-                <div class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
-            </div>
-            <div class="flex items-center space-x-1.5">
-                <i class="fa-solid fa-signal text-[10px]"></i>
-                <i class="fa-solid fa-wifi text-[10px]"></i>
-                <i class="fa-solid fa-battery-full text-xs"></i>
-            </div>
-        </div>
+        <!-- ОСНОВНОЙ КОНТЕНТ -->
+        <main id="app-content" class="flex-1 overflow-y-auto hide-scrollbar pb-24 px-4 pt-4">
 
-        <!-- ОСНОВНОЙ КОНТЕНТ (Скроллируемый экран) -->
-        <main id="app-content" class="flex-1 overflow-y-auto hide-scrollbar pb-24 px-4">
-
-            <!-- Вкладка 1: СЕГОДНЯ (Today View) -->
-            <section id="tab-today" class="tab-page space-y-6 pt-2">
-                <!-- Заголовок -->
+            <!-- Вкладка 1: СЕГОДНЯ -->
+            <section id="tab-today" class="tab-page space-y-6">
                 <div class="flex justify-between items-end pt-2">
                     <div>
                         <span class="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Вторник, 8 сентября</span>
                         <h1 class="text-3xl font-extrabold tracking-tight">Сегодня</h1>
                     </div>
-                    <div class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center font-bold text-sm">
+                    <div onclick="switchTab('auth')" class="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center font-bold text-sm cursor-pointer border border-white/20">
                         SD
                     </div>
                 </div>
 
-                <!-- Главный баннер (Главный релиз дня) -->
-                <div onclick="openModal(1)" class="ios-card rounded-3xl overflow-hidden relative cursor-pointer group transform transition active:scale-[0.98]">
+                <!-- Главный баннер -->
+                <div onclick="openModal(2)" class="ios-card rounded-3xl overflow-hidden relative cursor-pointer group transform transition active:scale-[0.98]">
                     <div class="h-96 relative">
                         <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
@@ -87,15 +75,14 @@
                     </div>
                 </div>
 
-                <!-- Подборка "MUST-HAVE ДЕТАЛИ" -->
+                <!-- Подборка "ПОПУЛЯРНЫЕ ДЕТАЛИ" -->
                 <div>
                     <div class="flex justify-between items-center mb-3">
                         <h2 class="text-xl font-bold">Популярные детали</h2>
-                        <span class="text-sm text-blue-500 font-medium">См. все</span>
+                        <span onclick="switchTab('catalog')" class="text-sm text-blue-500 font-medium cursor-pointer">См. все</span>
                     </div>
                     <div class="space-y-3">
-                        <!-- Элемент списка -->
-                        <div onclick="openModal(3)" class="flex items-center justify-between p-2 rounded-2xl active:bg-neutral-900 transition">
+                        <div onclick="openModal(3)" class="flex items-center justify-between p-2 rounded-2xl active:bg-neutral-900 transition cursor-pointer">
                             <div class="flex items-center space-x-3">
                                 <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=200&q=80" class="w-14 h-14 rounded-2xl object-cover">
                                 <div>
@@ -109,7 +96,7 @@
                             <button class="ios-btn px-4 py-1.5 rounded-full text-xs font-bold uppercase">600 ₽</button>
                         </div>
 
-                        <div onclick="openModal(1)" class="flex items-center justify-between p-2 rounded-2xl active:bg-neutral-900 transition">
+                        <div onclick="openModal(1)" class="flex items-center justify-between p-2 rounded-2xl active:bg-neutral-900 transition cursor-pointer">
                             <div class="flex items-center space-x-3">
                                 <img src="https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=200&q=80" class="w-14 h-14 rounded-2xl object-cover">
                                 <div>
@@ -126,28 +113,26 @@
                 </div>
             </section>
 
-            <!-- Вкладка 2: КАТАЛОГ (Apps/Models) -->
-            <section id="tab-catalog" class="tab-page hidden space-y-4 pt-2">
-                <h1 class="text-3xl font-extrabold tracking-tight">Категории</h1>
+            <!-- Вкладка 2: КАТАЛОГ -->
+            <section id="tab-catalog" class="tab-page hidden space-y-4">
+                <h1 class="text-3xl font-extrabold tracking-tight pt-2">Категории</h1>
                 
-                <!-- Горизонтальный скролл категорий -->
-                <div class="flex space-x-2 overflow-x-auto hide-scrollbar py-2">
-                    <button onclick="filterCat('all')" class="px-4 py-1.5 bg-blue-600 text-white rounded-full text-xs font-bold whitespace-nowrap">Все</button>
-                    <button onclick="filterCat('auto')" class="px-4 py-1.5 bg-neutral-800 text-neutral-300 rounded-full text-xs font-bold whitespace-nowrap">🚗 Авто</button>
-                    <button onclick="filterCat('cosplay')" class="px-4 py-1.5 bg-neutral-800 text-neutral-300 rounded-full text-xs font-bold whitespace-nowrap">🎮 Косплей</button>
-                    <button onclick="filterCat('tech')" class="px-4 py-1.5 bg-neutral-800 text-neutral-300 rounded-full text-xs font-bold whitespace-nowrap">⚙️ Технические</button>
-                    <button onclick="filterCat('gifts')" class="px-4 py-1.5 bg-neutral-800 text-neutral-300 rounded-full text-xs font-bold whitespace-nowrap">🎁 Подарки</button>
+                <div class="flex space-x-2 overflow-x-auto hide-scrollbar py-1">
+                    <button onclick="filterCat('all')" class="cat-btn px-4 py-1.5 bg-blue-600 text-white rounded-full text-xs font-bold whitespace-nowrap">Все</button>
+                    <button onclick="filterCat('auto')" class="cat-btn px-4 py-1.5 bg-neutral-800 text-neutral-300 rounded-full text-xs font-bold whitespace-nowrap">🚗 Авто</button>
+                    <button onclick="filterCat('cosplay')" class="cat-btn px-4 py-1.5 bg-neutral-800 text-neutral-300 rounded-full text-xs font-bold whitespace-nowrap">🎮 Косплей</button>
+                    <button onclick="filterCat('tech')" class="cat-btn px-4 py-1.5 bg-neutral-800 text-neutral-300 rounded-full text-xs font-bold whitespace-nowrap">⚙️ Технические</button>
+                    <button onclick="filterCat('gifts')" class="cat-btn px-4 py-1.5 bg-neutral-800 text-neutral-300 rounded-full text-xs font-bold whitespace-nowrap">🎁 Подарки</button>
                 </div>
 
-                <!-- Сетка 3D моделей -->
                 <div id="catalog-grid" class="grid grid-cols-2 gap-3 pt-2">
                     <!-- Рендер из JS -->
                 </div>
             </section>
 
-            <!-- Вкладка 3: 3D ИНТЕРАКТИВ (3D View) -->
-            <section id="tab-3d" class="tab-page hidden space-y-4 pt-2">
-                <h1 class="text-3xl font-extrabold tracking-tight">3D Вьюер</h1>
+            <!-- Вкладка 3: 3D ИНТЕРАКТИВ -->
+            <section id="tab-3d" class="tab-page hidden space-y-4">
+                <h1 class="text-3xl font-extrabold tracking-tight pt-2">3D Вьюер</h1>
                 <p class="text-xs text-neutral-400">Просмотр полигональной сетки и геометрии в реальном времени.</p>
                 
                 <div class="ios-card rounded-3xl p-3 relative">
@@ -159,27 +144,138 @@
                 </div>
             </section>
 
-            <!-- Вкладка 4: ЗАКАЗ / КОРЗИНА -->
-            <section id="tab-cart" class="tab-page hidden space-y-6 pt-2">
-                <h1 class="text-3xl font-extrabold tracking-tight">Заказ & CAD</h1>
+            <!-- Вкладка 4: ЗАКАЗ -->
+            <section id="tab-cart" class="tab-page hidden space-y-6">
+                <h1 class="text-3xl font-extrabold tracking-tight pt-2">Заказ & CAD</h1>
                 
                 <div class="ios-card p-5 rounded-3xl space-y-4">
                     <h3 class="font-bold text-lg">Индивидуальное моделирование</h3>
                     <p class="text-xs text-neutral-400">Разработка 3D-моделей по вашим чертежам, фото или сломанным образцам.</p>
                     <form onsubmit="event.preventDefault(); alert('Заявка принята! Инженер ответит в течение 15 минут.');" class="space-y-3">
-                        <input type="text" placeholder="Имя" required class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-blue-500">
-                        <input type="text" placeholder="Telegram / WhatsApp" required class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-blue-500">
-                        <textarea placeholder="Опишите деталь или задачу..." rows="3" class="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-blue-500"></textarea>
+                        <input type="text" placeholder="Имя" required class="w-full ios-input rounded-xl px-3 py-2.5 text-xs">
+                        <input type="text" placeholder="Telegram / WhatsApp" required class="w-full ios-input rounded-xl px-3 py-2.5 text-xs">
+                        <textarea placeholder="Опишите деталь или задачу..." rows="3" class="w-full ios-input rounded-xl px-3 py-2.5 text-xs"></textarea>
                         <button type="submit" class="w-full ios-btn-primary py-3 rounded-xl font-bold text-xs uppercase tracking-wider">Отправить инженеру</button>
                     </form>
                 </div>
             </section>
 
+            <!-- Вкладка 5: АВТОРИЗАЦИЯ / ПРОФИЛЬ -->
+            <section id="tab-auth" class="tab-page hidden space-y-6">
+                
+                <!-- Экран Входа (Форма) -->
+                <div id="auth-form-view" class="space-y-6">
+                    <div class="text-center pt-4">
+                        <div class="w-16 h-16 bg-blue-600/20 text-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-blue-500/30 text-2xl">
+                            <i class="fa-solid fa-cube"></i>
+                        </div>
+                        <h1 id="auth-title" class="text-2xl font-extrabold tracking-tight">Вход в ServiceDevices</h1>
+                        <p class="text-xs text-neutral-400 mt-1">Доступ к купленным 3D-моделям и заказам</p>
+                    </div>
+
+                    <!-- Форма Входа -->
+                    <form onsubmit="handleAuth(event)" class="ios-card p-5 rounded-3xl space-y-3">
+                        <div id="field-name" class="hidden">
+                            <label class="text-[10px] text-neutral-400 uppercase font-bold ml-1">Имя</label>
+                            <input type="text" id="input-name" placeholder="Иван Иванов" class="w-full ios-input rounded-xl px-3 py-2.5 text-xs mt-1">
+                        </div>
+
+                        <div>
+                            <label class="text-[10px] text-neutral-400 uppercase font-bold ml-1">Email</label>
+                            <input type="email" id="input-email" required placeholder="maker@servicedevices.online" class="w-full ios-input rounded-xl px-3 py-2.5 text-xs mt-1">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center ml-1">
+                                <label class="text-[10px] text-neutral-400 uppercase font-bold">Пароль</label>
+                                <a href="#" onclick="alert('Ссылка для восстановления отправлена на Email'); return false;" class="text-[10px] text-blue-500">Забыли?</a>
+                            </div>
+                            <input type="password" id="input-password" required placeholder="••••••••" class="w-full ios-input rounded-xl px-3 py-2.5 text-xs mt-1">
+                        </div>
+
+                        <button type="submit" id="auth-submit-btn" class="w-full ios-btn-primary py-3 rounded-xl font-bold text-xs uppercase tracking-wider mt-2">Войти</button>
+                    </form>
+
+                    <!-- Быстрый вход через Соцсети -->
+                    <div class="space-y-2">
+                        <div class="relative flex py-1 items-center">
+                            <div class="flex-grow border-t border-neutral-800"></div>
+                            <span class="flex-shrink mx-3 text-[10px] text-neutral-500 uppercase font-semibold">или войдите через</span>
+                            <div class="flex-grow border-t border-neutral-800"></div>
+                        </div>
+
+                        <!-- Sign in with Apple -->
+                        <button onclick="simulateSocialAuth('Apple ID')" class="w-full bg-white text-black py-3 rounded-xl font-bold text-xs flex items-center justify-center space-x-2 active:opacity-80 transition">
+                            <i class="fa-brands fa-apple text-base"></i>
+                            <span>Войти с Apple ID</span>
+                        </button>
+
+                        <!-- Telegram Auth -->
+                        <button onclick="simulateSocialAuth('Telegram')" class="w-full bg-[#29b6f6]/20 text-[#29b6f6] border border-[#29b6f6]/30 py-3 rounded-xl font-bold text-xs flex items-center justify-center space-x-2 active:opacity-80 transition">
+                            <i class="fa-brands fa-telegram text-base"></i>
+                            <span>Войти через Telegram</span>
+                        </button>
+                    </div>
+
+                    <!-- Переключатель Вход/Регистрация -->
+                    <div class="text-center text-xs text-neutral-400 pt-2">
+                        <span id="auth-switch-text">Еще нет аккаунта?</span>
+                        <button onclick="toggleAuthMode()" id="auth-switch-btn" class="text-blue-500 font-bold ml-1 underline">Создать аккаунт</button>
+                    </div>
+                </div>
+
+                <!-- Экран Авторизованного Пользователя (Профиль) -->
+                <div id="auth-profile-view" class="hidden space-y-6 pt-2">
+                    <div class="ios-card p-5 rounded-3xl flex items-center space-x-4">
+                        <div class="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center text-xl font-bold border border-white/20">
+                            SD
+                        </div>
+                        <div>
+                            <h2 id="profile-user-name" class="font-bold text-lg">Константин Мейкер</h2>
+                            <p id="profile-user-email" class="text-xs text-neutral-400">maker@servicedevices.online</p>
+                            <span class="inline-block bg-blue-500/20 text-blue-400 border border-blue-500/30 text-[10px] px-2 py-0.5 rounded-full font-bold mt-2">PRO MAKER</span>
+                        </div>
+                    </div>
+
+                    <!-- Баланс и Покупки -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="ios-card p-4 rounded-2xl">
+                            <span class="text-[10px] text-neutral-400 uppercase font-bold">Баланс</span>
+                            <div class="text-xl font-extrabold text-blue-400 mt-1">2 400 ₽</div>
+                        </div>
+                        <div class="ios-card p-4 rounded-2xl">
+                            <span class="text-[10px] text-neutral-400 uppercase font-bold">Модели</span>
+                            <div class="text-xl font-extrabold text-green-400 mt-1">8 файлов</div>
+                        </div>
+                    </div>
+
+                    <!-- История покупок -->
+                    <div class="space-y-3">
+                        <h3 class="font-bold text-sm">Мои скачанные 3D-файлы</h3>
+                        <div class="ios-card p-3 rounded-2xl flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <i class="fa-solid fa-cube text-blue-500"></i>
+                                <div>
+                                    <h4 class="text-xs font-bold">Заглушка VAG (STL)</h4>
+                                    <p class="text-[10px] text-neutral-500">Куплено 01.09.2026</p>
+                                </div>
+                            </div>
+                            <button onclick="alert('Скачивание начато...')" class="text-xs text-blue-500 font-bold">Скачать</button>
+                        </div>
+                    </div>
+
+                    <!-- Кнопка Выхода -->
+                    <button onclick="logout()" class="w-full bg-red-500/10 text-red-500 border border-red-500/20 py-3 rounded-xl font-bold text-xs uppercase tracking-wider">
+                        Выйти из аккаунта
+                    </button>
+                </div>
+
+            </section>
+
         </main>
 
-        <!-- МОДАЛЬНОЕ ОКНО ТОВАРА (App Store Storefront View) -->
+        <!-- МОДАЛЬНОЕ ОКНО ТОВАРА -->
         <div id="modal-detail" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl translate-y-full transition-transform duration-300 flex flex-col">
-            <!-- Кнопка Закрыть -->
             <div class="p-4 flex justify-between items-center border-b border-neutral-800">
                 <span class="text-xs text-neutral-500 font-semibold uppercase">Детали модели</span>
                 <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-neutral-800 flex items-center justify-center text-neutral-400">
@@ -188,7 +284,6 @@
             </div>
             
             <div class="flex-1 overflow-y-auto p-5 space-y-6">
-                <!-- Хедер товара -->
                 <div class="flex items-start space-x-4">
                     <img id="modal-img" src="" class="w-24 h-24 rounded-2xl object-cover border border-neutral-800">
                     <div class="flex-1">
@@ -201,7 +296,6 @@
                     </div>
                 </div>
 
-                <!-- Метаданные (Рейтинг, Размер, Формат) -->
                 <div class="grid grid-cols-3 gap-2 py-3 border-y border-neutral-800 text-center">
                     <div>
                         <span class="text-[10px] text-neutral-500 uppercase block">Оценка</span>
@@ -217,7 +311,6 @@
                     </div>
                 </div>
 
-                <!-- Описание -->
                 <div>
                     <h3 class="font-bold text-sm mb-2">Описание</h3>
                     <p class="text-xs text-neutral-400 leading-relaxed">
@@ -227,7 +320,7 @@
             </div>
         </div>
 
-        <!-- НИЖНИЙ ТАББАР (App Store Bottom Navigation) -->
+        <!-- НИЖНИЙ ТАББАР -->
         <nav class="absolute bottom-0 left-0 right-0 h-16 ios-blur border-t border-neutral-800 flex justify-around items-center px-2 z-40">
             <button onclick="switchTab('today')" id="btn-today" class="tab-btn active flex flex-col items-center text-blue-500 transition">
                 <i class="fa-solid fa-book-open text-lg"></i>
@@ -245,11 +338,14 @@
                 <i class="fa-solid fa-square-plus text-lg"></i>
                 <span class="text-[10px] mt-1 font-medium">Заказ</span>
             </button>
+            <button onclick="switchTab('auth')" id="btn-auth" class="tab-btn flex flex-col items-center text-neutral-500 transition">
+                <i class="fa-solid fa-user text-lg"></i>
+                <span class="text-[10px] mt-1 font-medium">Профиль</span>
+            </button>
         </nav>
 
     </div>
 
-    <!-- Скрипты и Логика -->
     <script>
         const products = [
             { id: 1, category: 'auto', title: 'Заглушка VAG', price: '450 ₽', format: 'STL, STEP', img: 'https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=400&q=80' },
@@ -260,7 +356,9 @@
             { id: 6, category: 'cosplay', title: 'Маска Аниме', price: '850 ₽', format: 'STL', img: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=400&q=80' }
         ];
 
-        // Переключение табов
+        let isSignUpMode = false;
+        let isLoggedIn = false;
+
         function switchTab(tabId) {
             document.querySelectorAll('.tab-page').forEach(page => page.classList.add('hidden'));
             document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -273,7 +371,59 @@
             document.getElementById(`btn-${tabId}`).classList.add('text-blue-500');
         }
 
-        // Рендер каталога
+        // Переключение Вход / Регистрация
+        function toggleAuthMode() {
+            isSignUpMode = !isSignUpMode;
+            const title = document.getElementById('auth-title');
+            const submitBtn = document.getElementById('auth-submit-btn');
+            const switchText = document.getElementById('auth-switch-text');
+            const switchBtn = document.getElementById('auth-switch-btn');
+            const fieldName = document.getElementById('field-name');
+
+            if (isSignUpMode) {
+                title.innerText = "Регистрация в ServiceDevices";
+                submitBtn.innerText = "Зарегистрироваться";
+                switchText.innerText = "Уже есть аккаунт?";
+                switchBtn.innerText = "Войти";
+                fieldName.classList.remove('hidden');
+            } else {
+                title.innerText = "Вход в ServiceDevices";
+                submitBtn.innerText = "Войти";
+                switchText.innerText = "Еще нет аккаунта?";
+                switchBtn.innerText = "Создать аккаунт";
+                fieldName.classList.add('hidden');
+            }
+        }
+
+        // Авторизация
+        function handleAuth(e) {
+            e.preventDefault();
+            const email = document.getElementById('input-email').value;
+            const name = isSignUpMode ? document.getElementById('input-name').value : "Константин Мейкер";
+
+            document.getElementById('profile-user-name').innerText = name || "Константин Мейкер";
+            document.getElementById('profile-user-email').innerText = email;
+
+            isLoggedIn = true;
+            document.getElementById('auth-form-view').classList.add('hidden');
+            document.getElementById('auth-profile-view').classList.remove('hidden');
+        }
+
+        function simulateSocialAuth(provider) {
+            document.getElementById('profile-user-name').innerText = `Пользователь (${provider})`;
+            document.getElementById('profile-user-email').innerText = `user@${provider.toLowerCase().replace(' ', '')}.com`;
+            
+            isLoggedIn = true;
+            document.getElementById('auth-form-view').classList.add('hidden');
+            document.getElementById('auth-profile-view').classList.remove('hidden');
+        }
+
+        function logout() {
+            isLoggedIn = false;
+            document.getElementById('auth-profile-view').classList.add('hidden');
+            document.getElementById('auth-form-view').classList.remove('hidden');
+        }
+
         function renderCatalog(items) {
             const grid = document.getElementById('catalog-grid');
             grid.innerHTML = items.map(p => `
@@ -292,11 +442,17 @@
         }
 
         function filterCat(cat) {
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-neutral-800', 'text-neutral-300');
+            });
+            event.target.classList.remove('bg-neutral-800', 'text-neutral-300');
+            event.target.classList.add('bg-blue-600', 'text-white');
+
             if (cat === 'all') renderCatalog(products);
             else renderCatalog(products.filter(p => p.category === cat));
         }
 
-        // Модальное окно
         function openModal(id) {
             const product = products.find(p => p.id === id);
             if (!product) return;
@@ -319,7 +475,6 @@
             closeModal();
         }
 
-        // Three.js 3D View
         function init3D() {
             const container = document.getElementById('canvas-container');
             const scene = new THREE.Scene();
@@ -352,10 +507,8 @@
             animate();
         }
 
-        // Инициализация
         renderCatalog(products);
         init3D();
     </script>
 </body>
 </html>
-
